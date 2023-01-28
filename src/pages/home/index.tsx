@@ -2,6 +2,14 @@ import { ViewerCard } from '../../components/card';
 import * as S from './styles';
 
 export function Home() {
+  const formatCardNumber = (value: string) => {
+    const regex = /^(\d{0,4})(\d{0,4})(\d{0,4})(\d{0,4})$/g;
+    const onlyNumbers = value.replace(/[^\d]/g, '');
+
+    return onlyNumbers.replace(regex, (regex, $1, $2, $3, $4) =>
+      [$1, $2, $3, $4].filter((group) => !!group).join(' ')
+    );
+  };
   return (
     <S.Container>
       <S.Wrapper>
@@ -9,7 +17,19 @@ export function Home() {
         <S.WrapperContent>
           <S.WrapperCards>
             <ViewerCard style="front" rigthPosition={200}>
-              <h1>teste</h1>
+              <S.CardFront>
+                <header>
+                  <div className="avatar1" />
+                  <div className="avatar2" />
+                </header>
+                <input placeholder="0000 0000 0000 0000" />
+                <footer>
+                  <span>{'Jane Aplleseed'}</span>
+                  <span>
+                    {10}/{32}
+                  </span>
+                </footer>
+              </S.CardFront>
             </ViewerCard>
             <ViewerCard style="back" rigthPosition={50}>
               <h1>teste</h1>
