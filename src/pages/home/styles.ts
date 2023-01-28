@@ -60,19 +60,13 @@ export const CardFront = styled.div`
     }
   }
 
-  input {
+  h1 {
     margin-top: 3rem;
     width: 100%;
     font-size: 1.5rem;
     color: #fff;
     letter-spacing: 0.15rem;
-    background: transparent;
-    border: 0;
-    pointer-events: none;
-
-    &::placeholder {
-      color: #fff;
-    }
+    min-width: 320px;
   }
 
   footer {
@@ -87,7 +81,15 @@ export const CardFront = styled.div`
     }
   }
 `;
-export const CardBack = styled.div``;
+export const CardBack = styled.div`
+  text-align: right;
+  min-height: 100px;
+  margin-top: 70px;
+  span {
+    margin-right: 8px;
+    color: #fff;
+  }
+`;
 export const WrapperForm = styled.section`
   background: blue;
 `;

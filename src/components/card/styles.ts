@@ -18,7 +18,7 @@ export const WrapperCard = styled.div<WrapperCardProps>`
     background-size: cover;
     background-repeat: no-repeat;
     border-radius: 1.5rem;
-    padding: 2.5rem 2.2rem;
+    padding: 2.5rem 2.5rem;
     position: relative;
     right: ${rigthPosition};
     box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,

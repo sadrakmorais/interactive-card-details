@@ -22,7 +22,7 @@ export function Home() {
                   <div className="avatar1" />
                   <div className="avatar2" />
                 </header>
-                <input placeholder="0000 0000 0000 0000" />
+                <h1>{'0000 0000 0000 0000'}</h1>
                 <footer>
                   <span>{'Jane Aplleseed'}</span>
                   <span>
@@ -32,7 +32,9 @@ export function Home() {
               </S.CardFront>
             </ViewerCard>
             <ViewerCard style="back" rigthPosition={50}>
-              <h1>teste</h1>
+              <S.CardBack>
+                <span>{'000'}</span>
+              </S.CardBack>
             </ViewerCard>
           </S.WrapperCards>
           <S.WrapperForm></S.WrapperForm>
