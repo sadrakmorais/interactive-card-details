@@ -29,6 +29,7 @@ export const WrapperContent = styled.div`
   height: 100vh;
   grid-template-columns: 4fr 6fr;
   padding: 8rem 3rem;
+  align-items: center;
 `;
 
 export const WrapperCards = styled.section`
@@ -90,6 +91,33 @@ export const CardBack = styled.div`
     color: #fff;
   }
 `;
-export const WrapperForm = styled.section`
-  background: blue;
+export const WrapperForm = styled.section``;
+export const Form = styled.form`
+  width: 100%;
+  max-width: 450px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  .expdate {
+    display: grid;
+    grid-template-columns: 1fr 5fr;
+    align-items: flex-end;
+    gap: 1rem;
+    text-transform: uppercase;
+    font-size: 1rem;
+    color: hsl(278, 68%, 11%);
+    section {
+      display: flex;
+      flex-direction: column;
+
+      .fields {
+        display: flex;
+        gap: 0.5rem;
+        input {
+          width: 100px;
+        }
+      }
+    }
+  }
 `;

@@ -1,5 +1,8 @@
 import { ViewerCard } from '../../components/card';
 import * as S from './styles';
+import { useForm } from 'react-hook-form';
+import { Input } from '../../components/input';
+import { Button } from '../../components/button';
 
 export function Home() {
   const formatCardNumber = (value: string) => {
@@ -10,6 +13,9 @@ export function Home() {
       [$1, $2, $3, $4].filter((group) => !!group).join(' ')
     );
   };
+
+  const { handleSubmit, register } = useForm();
+
   return (
     <S.Container>
       <S.Wrapper>
@@ -24,9 +30,9 @@ export function Home() {
                 </header>
                 <h1>{'0000 0000 0000 0000'}</h1>
                 <footer>
-                  <span>{'Jane Aplleseed'}</span>
+                  <span>{'your name'}</span>
                   <span>
-                    {10}/{32}
+                    {'00'}/{'00'}
                   </span>
                 </footer>
               </S.CardFront>
@@ -37,7 +43,23 @@ export function Home() {
               </S.CardBack>
             </ViewerCard>
           </S.WrapperCards>
-          <S.WrapperForm></S.WrapperForm>
+          <S.WrapperForm>
+            <S.Form onSubmit={handleSubmit((data) => console.log(data))}>
+              <Input label="Cardholder Name" {...register('cardholdername')} />
+              <Input label="Card Number" {...register('cardnumber')} />
+              <div className="expdate">
+                <section>
+                  exp.date (MM/YY)
+                  <div className="fields">
+                    <Input label="" {...register('expmm')} />
+                    <Input label="" {...register('expyy')} />
+                  </div>
+                </section>
+                <Input label="cvc" {...register('cvc')} />
+              </div>
+              <Button title="Confirm" />
+            </S.Form>
+          </S.WrapperForm>
         </S.WrapperContent>
       </S.Wrapper>
     </S.Container>
