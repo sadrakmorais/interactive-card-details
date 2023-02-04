@@ -1,3 +1,4 @@
+import { Warning } from 'phosphor-react';
 import {
   forwardRef,
   ForwardRefRenderFunction,
@@ -21,7 +22,11 @@ const InputBase: ForwardRefRenderFunction<HTMLInputElement, InputProps> = (
       {!!label && <label>{label}</label>}
 
       <input ref={ref} {...inputProps} className={error ? 'hasError' : ''} />
-      <S.Error>{error?.message}</S.Error>
+      <S.Error>
+        {error && (
+          <small className={error ? 'hasError' : ''}>{error?.message}</small>
+        )}
+      </S.Error>
     </S.Wrapper>
   );
 };

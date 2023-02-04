@@ -26,17 +26,21 @@ export function Home() {
 
   const schemaValidation = yup
     .object({
-      cardholdername: yup.string().required('O campo é obrigatório.'),
-      cardnumber: yup.string().required('O campo é obrigatório.'),
+      cardholdername: yup.string().required('Can`t be blank'),
+      cardnumber: yup
+        .string()
+        .min(16, 'Wrong format')
+        .matches(/^[1-9]{16}$/, 'Wrong format,numbers only')
+        .required('Can`t be blank'),
       expmm: yup
         .string()
         .max(2, 'Adicione apenas 2 dígitos')
-        .required('O campo é obrigatório.'),
+        .required('Can`t be blank'),
       expyy: yup
         .string()
         .max(2, 'Adicione apenas 2 dígitos')
-        .required('O campo é obrigatório.'),
-      cvc: yup.string().max(3).required('O campo é obrigatório.'),
+        .required('Can`t be blank'),
+      cvc: yup.string().max(3).required('Can`t be blank'),
     })
     .required();
 
@@ -85,30 +89,39 @@ export function Home() {
               <Input
                 label="Cardholder Name"
                 {...register('cardholdername')}
+                placeholder="e.g. Jane Appleseed"
                 error={errors.cardholdername}
               />
               <Input
                 label="Card Number"
+                placeholder="e.g. 1234 4678 9123 0000"
                 {...register('cardnumber')}
                 error={errors.cardnumber}
               />
               <div className="expdate">
                 <section>
-                  exp.date (MM/YY)
+                  EXP.DATE (MM/YY)
                   <div className="fields">
                     <Input
                       label=""
+                      placeholder="MM"
                       {...register('expmm')}
                       error={errors.expmm}
                     />
                     <Input
                       label=""
+                      placeholder="YY"
                       {...register('expyy')}
                       error={errors.expyy}
                     />
                   </div>
                 </section>
-                <Input label="cvc" {...register('cvc')} error={errors.cvc} />
+                <Input
+                  label="cvc"
+                  {...register('cvc')}
+                  error={errors.cvc}
+                  placeholder="e.g. 123"
+                />
               </div>
               <Button title="Confirm" />
             </S.Form>

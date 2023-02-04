@@ -27,5 +27,12 @@ export const Wrapper = styled.div`
 export const Error = styled.div`
   height: 1.8rem;
   display: flex;
-  gap: 0.8rem;
+  small {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    &.hasError {
+      color: #ff3333;
+    }
+  }
 `;

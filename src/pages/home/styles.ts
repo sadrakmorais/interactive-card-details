@@ -104,7 +104,6 @@ export const Form = styled.form`
     grid-template-columns: 1fr 5fr;
     align-items: flex-end;
     gap: 1rem;
-    text-transform: uppercase;
     font-size: 1rem;
     color: hsl(278, 68%, 11%);
     section {
