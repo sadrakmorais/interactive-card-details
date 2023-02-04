@@ -21,6 +21,7 @@ const InputBase: ForwardRefRenderFunction<HTMLInputElement, InputProps> = (
       {!!label && <label>{label}</label>}
 
       <input ref={ref} {...inputProps} className={error ? 'hasError' : ''} />
+      <S.Error>{error?.message}</S.Error>
     </S.Wrapper>
   );
 };

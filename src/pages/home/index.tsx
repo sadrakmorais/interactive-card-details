@@ -1,8 +1,18 @@
 import { ViewerCard } from '../../components/card';
 import * as S from './styles';
-import { useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { Input } from '../../components/input';
 import { Button } from '../../components/button';
+import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
+
+type FormFieldsProps = {
+  cardholdername: string;
+  cardnumber: string;
+  expmm: string;
+  expyy: string;
+  cvc: string;
+};
 
 export function Home() {
   const formatCardNumber = (value: string) => {
@@ -14,7 +24,34 @@ export function Home() {
     );
   };
 
-  const { handleSubmit, register } = useForm();
+  const schemaValidation = yup
+    .object({
+      cardholdername: yup.string().required('O campo é obrigatório.'),
+      cardnumber: yup.string().required('O campo é obrigatório.'),
+      expmm: yup
+        .string()
+        .max(2, 'Adicione apenas 2 dígitos')
+        .required('O campo é obrigatório.'),
+      expyy: yup
+        .string()
+        .max(2, 'Adicione apenas 2 dígitos')
+        .required('O campo é obrigatório.'),
+      cvc: yup.string().max(3).required('O campo é obrigatório.'),
+    })
+    .required();
+
+  const {
+    handleSubmit,
+    register,
+    reset,
+    formState: { errors },
+  } = useForm<FormFieldsProps>({
+    resolver: yupResolver(schemaValidation),
+  });
+
+  const onSubmit: SubmitHandler<FormFieldsProps> = (data) => {
+    console.log(data);
+  };
 
   return (
     <S.Container>
@@ -44,18 +81,34 @@ export function Home() {
             </ViewerCard>
           </S.WrapperCards>
           <S.WrapperForm>
-            <S.Form onSubmit={handleSubmit((data) => console.log(data))}>
-              <Input label="Cardholder Name" {...register('cardholdername')} />
-              <Input label="Card Number" {...register('cardnumber')} />
+            <S.Form onSubmit={handleSubmit(onSubmit)}>
+              <Input
+                label="Cardholder Name"
+                {...register('cardholdername')}
+                error={errors.cardholdername}
+              />
+              <Input
+                label="Card Number"
+                {...register('cardnumber')}
+                error={errors.cardnumber}
+              />
               <div className="expdate">
                 <section>
                   exp.date (MM/YY)
                   <div className="fields">
-                    <Input label="" {...register('expmm')} />
-                    <Input label="" {...register('expyy')} />
+                    <Input
+                      label=""
+                      {...register('expmm')}
+                      error={errors.expmm}
+                    />
+                    <Input
+                      label=""
+                      {...register('expyy')}
+                      error={errors.expyy}
+                    />
                   </div>
                 </section>
-                <Input label="cvc" {...register('cvc')} />
+                <Input label="cvc" {...register('cvc')} error={errors.cvc} />
               </div>
               <Button title="Confirm" />
             </S.Form>
