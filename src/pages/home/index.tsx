@@ -5,6 +5,7 @@ import { Input } from '../../components/input';
 import { Button } from '../../components/button';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useState } from 'react';
 
 type FormFieldsProps = {
   cardholdername: string;
@@ -14,15 +15,19 @@ type FormFieldsProps = {
   cvc: string;
 };
 
-export function Home() {
-  const formatCardNumber = (value: string) => {
-    const regex = /^(\d{0,4})(\d{0,4})(\d{0,4})(\d{0,4})$/g;
-    const onlyNumbers = value.replace(/[^\d]/g, '');
+type ExpDateProps = {
+  mm: string;
+  yy: string;
+};
 
-    return onlyNumbers.replace(regex, (regex, $1, $2, $3, $4) =>
-      [$1, $2, $3, $4].filter((group) => !!group).join(' ')
-    );
-  };
+export function Home() {
+  const [cardHolderName, setCardHolderName] = useState('');
+  const [cardNumber, setCardNumber] = useState('');
+  const [cardCVC, setCardCVC] = useState('');
+  const [expDate, setExpDate] = useState<ExpDateProps>({
+    mm: '00',
+    yy: '00',
+  });
 
   const schemaValidation = yup
     .object({
@@ -30,16 +35,11 @@ export function Home() {
       cardnumber: yup
         .string()
         .min(16, 'Wrong format')
+        .max(16, 'Wrong format')
         .matches(/^[1-9]{16}$/, 'Wrong format,numbers only')
         .required('Can`t be blank'),
-      expmm: yup
-        .string()
-        .max(2, 'Adicione apenas 2 dígitos')
-        .required('Can`t be blank'),
-      expyy: yup
-        .string()
-        .max(2, 'Adicione apenas 2 dígitos')
-        .required('Can`t be blank'),
+      expmm: yup.string().max(2, 'Wrong format').required('Can`t be blank'),
+      expyy: yup.string().max(2, 'Wrong format').required('Can`t be blank'),
       cvc: yup.string().max(3).required('Can`t be blank'),
     })
     .required();
@@ -57,6 +57,16 @@ export function Home() {
     console.log(data);
   };
 
+  const formatCardNumber = (numberCard: string) => {
+    const defaultNumberCardGroup = '0000';
+
+    return `${numberCard.slice(0, 4) || defaultNumberCardGroup} ${
+      numberCard.slice(4, 8) || defaultNumberCardGroup
+    } ${numberCard.slice(8, 12) || defaultNumberCardGroup} ${
+      numberCard.slice(12, 16) || defaultNumberCardGroup
+    }`;
+  };
+
   return (
     <S.Container>
       <S.Wrapper>
@@ -69,18 +79,18 @@ export function Home() {
                   <div className="avatar1" />
                   <div className="avatar2" />
                 </header>
-                <h1>{'0000 0000 0000 0000'}</h1>
+                <h1>{formatCardNumber(cardNumber)}</h1>
                 <footer>
-                  <span>{'your name'}</span>
+                  <span>{cardHolderName || 'your name'}</span>
                   <span>
-                    {'00'}/{'00'}
+                    {expDate.mm.slice(0, 2)}/{expDate.yy.slice(0, 2)}
                   </span>
                 </footer>
               </S.CardFront>
             </ViewerCard>
             <ViewerCard style="back" rigthPosition={50}>
               <S.CardBack>
-                <span>{'000'}</span>
+                <span>{cardCVC.slice(0, 3) || '000'}</span>
               </S.CardBack>
             </ViewerCard>
           </S.WrapperCards>
@@ -91,12 +101,14 @@ export function Home() {
                 {...register('cardholdername')}
                 placeholder="e.g. Jane Appleseed"
                 error={errors.cardholdername}
+                onChange={(event) => setCardHolderName(event.target.value)}
               />
               <Input
                 label="Card Number"
                 placeholder="e.g. 1234 4678 9123 0000"
                 {...register('cardnumber')}
                 error={errors.cardnumber}
+                onChange={(event) => setCardNumber(event.target.value)}
               />
               <div className="expdate">
                 <section>
@@ -107,12 +119,24 @@ export function Home() {
                       placeholder="MM"
                       {...register('expmm')}
                       error={errors.expmm}
+                      onChange={(event) =>
+                        setExpDate({
+                          mm: event.target.value,
+                          yy: expDate.yy,
+                        })
+                      }
                     />
                     <Input
                       label=""
                       placeholder="YY"
                       {...register('expyy')}
                       error={errors.expyy}
+                      onChange={(event) =>
+                        setExpDate({
+                          mm: expDate.mm,
+                          yy: event.target.value,
+                        })
+                      }
                     />
                   </div>
                 </section>
@@ -121,6 +145,7 @@ export function Home() {
                   {...register('cvc')}
                   error={errors.cvc}
                   placeholder="e.g. 123"
+                  onChange={(event) => setCardCVC(event.target.value)}
                 />
               </div>
               <Button title="Confirm" />

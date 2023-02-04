@@ -3,8 +3,9 @@ import {
   forwardRef,
   ForwardRefRenderFunction,
   InputHTMLAttributes,
+  useState,
 } from 'react';
-import { FieldError } from 'react-hook-form';
+import { FieldError, set } from 'react-hook-form';
 
 import * as S from './styles';
 
@@ -17,11 +18,17 @@ const InputBase: ForwardRefRenderFunction<HTMLInputElement, InputProps> = (
   { label, error, ...inputProps }: InputProps,
   ref
 ) => {
+  const [areOnFocus, setAreOnFocus] = useState(false);
   return (
-    <S.Wrapper>
+    <S.Wrapper areOnFocus={areOnFocus}>
       {!!label && <label>{label}</label>}
 
-      <input ref={ref} {...inputProps} className={error ? 'hasError' : ''} />
+      <input
+        ref={ref}
+        {...inputProps}
+        className={error ? 'hasError' : ''}
+        onFocus={() => setAreOnFocus(true)}
+      />
       <S.Error>
         {error && (
           <small className={error ? 'hasError' : ''}>{error?.message}</small>

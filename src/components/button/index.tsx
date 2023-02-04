@@ -5,6 +5,6 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   children?: ReactNode;
   title?: string;
 };
-export function Button({ children, title }: ButtonProps) {
-  return <S.Button>{title || children}</S.Button>;
+export function Button({ children, title, ...rest }: ButtonProps) {
+  return <S.Button {...rest}>{title || children}</S.Button>;
 }

@@ -8,6 +8,10 @@ export const Button = styled.button`
   border-radius: 0.4rem;
   font-size: 1.2rem;
 
+  &:disabled {
+    opacity: 0.5;
+  }
+
   &:hover {
     transition: 0.3s ease-in-out;
     filter: brightness(1.5);
